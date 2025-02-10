@@ -1,0 +1,15 @@
+# Volume Directory for Database
+/DB/Data
+/DB/Data/*
+
+# Byte-compiled / optimized / DLL files
+_pycache_/
+*.py[cod]
+*$py.class
+
+# Compiled binary addons (https://nodejs.org/api/addons.html)
+build/Release
+
+# Dependency directories
+node_modules/
+jspm_packages/
