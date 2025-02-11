@@ -19,22 +19,31 @@ def trasnsaction(from_account_no, to_account_no, amount):
 def read():
     cursorobject=database.cursor()
     cursorobject.execute("SELECT * FROM transactiontable")
-    database.commit()
-    return "Table are : "
+    result=cursorobject.fetchall()
+    transaction=[]
+    for Transaction_id, From_account_no, To_account_no, Transaction_amount in result:
+        transaction.append({"Transaction id":Transaction_id, "From account no":From_account_no, "To account no":To_account_no, "Transaction amount":Transaction_amount})
+    return transaction
 
 def read_by_transaction_id(transaction_id):
     cursorobject=database.cursor()
     sql="SELECT * FROM transactiontable WHERE Transaction_id = %s"
     cursorobject.execute(sql,(transaction_id,))
-    database.commit()
-    return "Transaction table : "
+    result=cursorobject.fetchall()
+    transaction=[]
+    for Transaction_id, From_account_no, To_account_no, Transaction_amount in result:
+        transaction.append({"Transaction id":Transaction_id, "From account no":From_account_no, "To account no":To_account_no, "Transaction amount":Transaction_amount})
+    return transaction
 
 def read_by_account_no(account_no):
     cursorobject=database.cursor()
     sql="SELECT * FROM transactiontable WHERE From_account_no = %s"
     cursorobject.execute(sql,(account_no,))
-    database.commit()
-    return "Transaction table : "
+    result=cursorobject.fetchall()
+    transaction=[]
+    for Transaction_id, From_account_no, To_account_no, Transaction_amount in result:
+        transaction.append({"Transaction id":Transaction_id, "From account no":From_account_no, "To account no":To_account_no, "Transaction amount":Transaction_amount})
+    return transaction
 
 def add_balance(account_no,amount):
     cursorobject=database.cursor()

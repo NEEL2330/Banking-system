@@ -27,8 +27,11 @@ def read_account_balance_by_account_no(account_no):
     cursorobject=database.cursor()
     sql="SELECT Account_balance FROM accounttable WHERE Account_no = %s"
     cursorobject.execute(sql,(account_no,))
-    database.commit()
-    return {"Message : Balance is displayed"}
+    result=cursorobject.fetchall()
+    account=[]
+    for Account_balance in account:
+        account.append({"Account balance":Account_balance})
+    return account
 
 def delete(account_id):
     cursorobject=database.cursor()
