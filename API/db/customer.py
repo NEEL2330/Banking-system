@@ -42,3 +42,23 @@ def read_by_name(name):
         customer.append({"DOB":DOB,"Email":email,"Mobile":mobile,"City":city,"Name":name,"customer id":Customer_ID})
     return customer
 
+def update_by_id_city(customer_id, city):
+    cursorobject=database.cursor()
+    sql="UPDATE customertable SET City_name = %s WHERE Customer_id = %s"
+    cursorobject.execute(sql,(city,customer_id))
+    database.commit()
+    return {"Message": "Customer successfully updated"}
+
+def update_by_id_email(customer_id, email):
+    cursorobject=database.cursor()
+    sql="UPDATE customertable SET Email = %s WHERE Customer_id = %s"
+    cursorobject.execute(sql,(email,customer_id))
+    database.commit()
+    return {"Message": "Customer successfully updated"}
+
+def update_by_id_mobile(customer_id, mobile):
+    cursorobject=database.cursor()
+    sql="UPDATE customertable SET Mobile_no = %s WHERE Customer_id = %s"
+    cursorobject.execute(sql,(mobile,customer_id))
+    database.commit()
+    return {"Message": "Customer successfully updated"}
