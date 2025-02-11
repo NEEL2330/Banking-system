@@ -43,4 +43,3 @@ def update_balance_by_accountid(account_id,balance):
     cursorobject.execute(sql,(balance,account_id))
     database.commit()
     return cursorobject.rowcount, "record updated"
- 
