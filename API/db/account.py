@@ -29,16 +29,16 @@ def read_account_balance_by_account_no(account_no):
     cursorobject.execute(sql,(account_no,))
     result=cursorobject.fetchall()
     account=[]
-    for Account_balance in account:
+    for Account_balance in result:
         account.append({"Account balance":Account_balance})
     return account
 
-def delete(account_id):
+def delete_account(account_id):
     cursorobject=database.cursor()
     sql="DELETE FROM accounttable WHERE Account_id = %s"
-    cursorobject.execute(sql,(account_id))
-    database.commit()
-    return cursorobject.rowcount, "record deleted"
+    cursorobject.execute(sql,(account_id,)) # Remeber without comma, python does not expect tupple.
+    database.commit()                       # (sql,(account_id,))  Tupple
+    return cursorobject.rowcount            # (sql,(account_id))   Not a tupple
 
 def update_balance_by_accountid(account_id,balance):
     cursorobject=database.cursor()

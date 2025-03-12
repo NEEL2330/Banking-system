@@ -22,7 +22,7 @@ def create_route():
 @app.route('/customer1', methods = ['GET'])
 def read_customer():
     name=request.args.get("name",None)
-    city=request.args.get("City",None)
+    city=request.args.get(" City",None)
     dob=request.args.get("dob",None)
     if name and dob:
         data=read_by_name_age(int(dob),name)
