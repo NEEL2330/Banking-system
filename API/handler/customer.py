@@ -8,7 +8,7 @@ from db.customer import create_customer, read, delete, read_by_name, update_by_n
         
 
 app = Flask(__name__)
-@app.route('/customer', methods = ['POST'])
+@app.route('/customer_create', methods = ['POST'])
 def create_route():
     body=request.json
     name=body["Name"]
