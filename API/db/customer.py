@@ -36,7 +36,7 @@ def read_by_name(name):
 def read_by_city(city):
     cursorobject=database.cursor()
     sql="SELECT * FROM customertable WHERE City_name = %s"
-    cursorobject.execute(sql,(city))
+    cursorobject.execute(sql,(city,))
     result=cursorobject.fetchall()
     customer=[]
     for Customer_ID,name,city,mobile,email,DOB in result:

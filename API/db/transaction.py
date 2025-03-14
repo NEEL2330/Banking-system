@@ -9,10 +9,10 @@ database=mysql.connector.connect(
 
 def trasnsaction(from_account_no, to_account_no, amount):
     cursorobject=database.cursor()
-    sql="INSERT INTO transactiontable (From_account_no, To_account_no, Transaction_amount) VALUES(%s, %s, %s)"
-    cursorobject.execute(sql,(from_account_no, to_account_no, amount))
     add_balance(to_account_no,amount)
     subtract_balance(from_account_no,amount)
+    sql="INSERT INTO transactiontable (From_account_no, To_account_no, Transaction_amount) VALUES(%s, %s, %s)"
+    cursorobject.execute(sql,(from_account_no, to_account_no, amount))
     database.commit()
     return "Transaction has placed successfully"
 
@@ -37,8 +37,8 @@ def read_by_transaction_id(transaction_id):
 
 def read_by_account_no(account_no):
     cursorobject=database.cursor()
-    sql="SELECT * FROM transactiontable WHERE From_account_no = %s"
-    cursorobject.execute(sql,(account_no,))
+    sql="SELECT * FROM transactiontable WHERE From_account_no = %s OR To_account_no = %s"
+    cursorobject.execute(sql,(account_no,account_no))
     result=cursorobject.fetchall()
     transaction=[]
     for Transaction_id, From_account_no, To_account_no, Transaction_amount in result:
@@ -47,14 +47,14 @@ def read_by_account_no(account_no):
 
 def add_balance(account_no,amount):
     cursorobject=database.cursor()
-    sql="UPDATE FROM accounttable SET Account_balance = Account_balance + %s WHERE Account_no = %s"
+    sql="UPDATE accounttable SET Account_balance = Account_balance + %s WHERE Account_no = %s"
     cursorobject.execute(sql,(amount,account_no))
     database.commit()
-    return "Account balance Updated"
+    return "Transaction successfully done"
 
 def subtract_balance(account_no,amount):
     cursorobject=database.cursor()
     sql="UPDATE accounttable SET Account_balance = Account_balance - %s WHERE Account_no = %s"
     cursorobject.execute(sql,(amount,account_no))
     database.commit()
-    return "Account balance updated"
+    return "Transaction successfully done"
