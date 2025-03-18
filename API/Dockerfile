@@ -12,11 +12,17 @@ RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
 # Copy all files into the container
-COPY API/ .
+COPY . /app
 
-# Expose the Flask port
+# Copy the entrypoint script and give execution permissions
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Expose Flask ports
 EXPOSE 5000 5001 5002
 
+# Install netcat for MySQL readiness check (use netcat-openbsd)
+RUN apt-get update && apt-get install -y netcat-openbsd
 
-# Run all three Flask apps using Gunicorn in parallel
-CMD ["sh", "-c", "sleep 10 && python handler/main.py & python handler/main2.py & python handler/main3.py && wait"]
+# Run the entrypoint script
+CMD ["/entrypoint.sh"]

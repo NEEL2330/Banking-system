@@ -2,10 +2,11 @@ import mysql.connector
 import os
 
 database=mysql.connector.connect(
-    host=os.getenv("DB_HOST", "localhost"),
-    user=os.getenv("DB_USER", "root"),
-    password=os.getenv("DB_PASSWORD", "Neelbera@2330t"),
-    database=os.getenv("DB_NAME", "banking_system")
+    host="mysql-container",
+    port=3306,
+    user="root",
+    password="Neelbera@2330",
+    database="banking_system"
 )
 
 def create_account(Customer_id,Account_no,Account_balance):
