@@ -2,8 +2,7 @@ import mysql.connector
 import os
 
 database=mysql.connector.connect(
-    host="mysql-container",
-    port=3306,
+    host="mysql-banking",
     user="root",
     password="Neelbera@2330",
     database="banking_system"

@@ -24,13 +24,14 @@ services:
     ports:
       - "5000:5000"
     environment:
-      DB_HOST: mysql-db
+      DB_HOST: mysql-banking
       DB_USER: root
       DB_PASSWORD: Neelbera@2330
       DB_NAME: banking_system
     volumes:
       - .:/app
-    command: ["python", "app.py"]
+    command: ["python", "handler/app.py"]
+
 
 volumes:
   mysql_data:
