@@ -1,5 +1,3 @@
-USE banking_system;
-
 CREATE TABLE AccountTable(
     Account_id INT AUTO_INCREMENT PRIMARY KEY,
     Customer_id INT,
