@@ -1,11 +1,12 @@
 import mysql.connector
+import config
 
 database=mysql.connector.connect(
-    host="mysql-banking",
-    user="root",
-    password="Neelbera@2330",
-    database="banking_system"
-)   
+    host=config.DB_HOST,
+    user=config.DB_USER,
+    password=config.DB_PASSWORD,
+    database=config.DB_NAME
+)
 
 def trasnsaction(from_account_no, to_account_no, amount):
     cursorobject=database.cursor()
