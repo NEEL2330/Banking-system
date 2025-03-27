@@ -1,3 +1,6 @@
+USE banking_system;
+
+
 CREATE TABLE  TransactionTable(
     Transaction_id INT AUTO_INCREMENT PRIMARY KEY,
     From_account_no INT,

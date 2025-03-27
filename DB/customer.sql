@@ -1,3 +1,6 @@
+USE banking_system;
+
+
 CREATE TABLE CustomerTable(
     Customer_id INT AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(100),
