@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  db:
+    image: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: Neelbera@2330
+      MYSQL_DATABASE: banking_system
+      MYSQL_USER: root
+      MYSQL_PASSWORD: Neelbera@2330
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./DB/Scripts:/docker-entrypoint-initdb.d/
+volumes:
+  mysql_data:
