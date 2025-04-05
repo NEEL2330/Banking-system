@@ -1,36 +1,22 @@
 version: '3.8'
 
 services:
-  mysql-db:
-    image: mysql:latest
-    container_name: mysql-container
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: Neelbera@2330
-      MYSQL_DATABASE: banking_system
-      MYSQL_USER: root
-      MYSQL_PASSWORD: Neelbera@2330
-    ports:
-      - "3307:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-
   flask-app:
     build: .
-    container_name: flask_container
+    container_name: api-container
     restart: always
     depends_on:
-      - mysql-db
+      - db-container
     ports:
       - "5000:5000"
     environment:
-      DB_HOST: mysql-banking
+      DB_ROOT_PASSWORD: Neelbera@2330
       DB_USER: root
       DB_PASSWORD: Neelbera@2330
       DB_NAME: banking_system
     volumes:
       - .:/app
-    command: ["python", "handler/app.py"]
+    command: ["python", "/API/handler/app.py"]
 
 
 volumes:

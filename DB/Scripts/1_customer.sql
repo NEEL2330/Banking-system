@@ -1,4 +1,4 @@
-CREATE TABLE CustomerTable(
+CREATE TABLE customertable(
     Customer_id INT AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(100),
     City_name varchar(50),

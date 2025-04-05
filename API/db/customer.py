@@ -1,12 +1,12 @@
 import mysql.connector
-import config
 
-database=mysql.connector.connect(
-    host=config.DB_HOST,
-    user=config.DB_USER,
-    password=config.DB_PASSWORD,
-    database=config.DB_NAME
+database = mysql.connector.connect(
+    host="db-container",   
+    user="root",
+    password="Neelbera@2330",
+    database="banking_system"
 )
+
 
 def create_customer(name, city, mobile, email, dob): 
     cursorObject = database.cursor()
