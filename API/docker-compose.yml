@@ -3,10 +3,10 @@ version: '3.8'
 services:
   flask-app:
     build: .
-    container_name: api-container
+    container_name: api-container-part-1
     restart: always
     depends_on:
-      - db-container
+      - db-container-part-1
     ports:
       - "5000:5000"
     environment:
@@ -14,8 +14,6 @@ services:
       DB_USER: root
       DB_PASSWORD: Neelbera@2330
       DB_NAME: banking_system
-    volumes:
-      - .:/app
     command: ["python", "/API/handler/app.py"]
 
 

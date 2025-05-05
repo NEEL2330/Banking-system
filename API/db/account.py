@@ -1,7 +1,7 @@
 import mysql.connector
 
 database = mysql.connector.connect(
-    host="db-container",   
+    host="db-container-part-1",   
     user="root",
     password="Neelbera@2330",
     database="banking_system"

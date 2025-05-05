@@ -1,7 +1,8 @@
 version: '3.8'
+
 services:
-  db-container:
-    image: db-image
+  db-container-part-1:
+    image: db-image-part-1
     environment:
       MYSQL_ROOT_PASSWORD: Neelbera@2330
       MYSQL_DATABASE: banking_system
@@ -10,7 +11,5 @@ services:
     ports:
       - "3307:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
-      - ./DB/Scripts:/docker-entrypoint-initdb.d/
-volumes:
-  mysql_data:
+      - ./Scripts:/docker-entrypoint-initdb.d  # This is for your SQL scripts
+      - ./mysql_data:/var/lib/mysql             # This persists your MySQL data
