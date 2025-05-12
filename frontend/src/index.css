@@ -1,0 +1,65 @@
+/* styles.css */
+
+/* Reset some default styling */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f3f4f6;
+  color: #333;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #0e1a40;
+  color: white;
+}
+
+.navbar .logo {
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.navbar .nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.navbar .nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.navbar .nav-links a:hover {
+  color: #ffd700;
+}
+
+/* Page content */
+.container {
+  padding: 2rem;
+}
+
+/* Headings */
+h2 {
+  font-size: 28px;
+  margin-bottom: 1rem;
+}
+
+/* Footer (optional) */
+.footer {
+  margin-top: 4rem;
+  padding: 1rem;
+  background-color: #0e1a40;
+  color: white;
+  text-align: center;
+}
