@@ -9,13 +9,13 @@ const AccountRead = () => {
   const [postbody, setpostbody] = useState('')
 
   useEffect(() => {
-    axios.get("https://jsonplaceholder.typicode.com/posts")
+    axios.get("https://fakestoreapi.com/products")
     .then((response) => {
       setdata(response.data)
       setloading(false)
-      console.log(respose.data)
+      console.log(response)
     })
-  },[]);
+  },[postbody]);
   
   const handleSubmit = (e) => {
     e.preventDefault()

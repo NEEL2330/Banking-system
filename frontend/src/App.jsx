@@ -8,6 +8,9 @@ import Customer from './pages/Customer';
 import AccountCreate from './pages/AccountCreate';
 import AccountRead from './pages/AccountRead';
 import AccountUpdate from './pages/AccountUpdate';
+import CustomerRead from './pages/CustomerRead';
+import CustomerCreate from './pages/CustomerCreate';
+import CustomerUpdate from './pages/CustomerUpdate';
 
 
 const App = () => {
@@ -22,6 +25,9 @@ const App = () => {
           <Route path="/accountRead" element={<AccountRead />} />
         <Route path="/transaction" element={<Transaction />} />
         <Route path="/customer" element={<Customer />} />
+          <Route path="/customerCreate" element={<CustomerCreate />} />
+          <Route path="/customerUpdate" element={<CustomerUpdate />} />
+          <Route path="/customerRead" element={<CustomerRead />} />
       </Routes>
     </Router>
   );
