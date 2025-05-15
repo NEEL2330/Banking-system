@@ -1,10 +1,11 @@
 import mysql.connector
 
 database = mysql.connector.connect(
-    host="db-container-part-1",   
+    host="localhost",   
     user="root",
     password="Neelbera@2330",
-    database="banking_system"
+    database="banking_system",
+    autocommit=True
 )
 
 
@@ -13,6 +14,7 @@ def create_customer(name, city, mobile, email, dob):
     sql = "INSERT INTO customertable (NAME, City_name, Mobile_no, Email, DOB) VALUES (%s, %s, %s, %s, %s)"
     cursorObject.execute(sql,(name,city,mobile, email, dob))
     database.commit()
+    cursorObject.close()
     return cursorObject.rowcount, "record inserted."
 
 def read():
@@ -22,6 +24,7 @@ def read():
     customer=[]
     for Customer_ID,name,city,mobile,email,DOB in result:
         customer.append({"DOB":DOB,"Email":email,"Mobile":mobile,"City":city,"Name":name,"customer id":Customer_ID})
+    cursorobject.close()
     return customer
 
 def read_by_name(name):
@@ -32,6 +35,7 @@ def read_by_name(name):
     customer=[]
     for Customer_ID,name,city,mobile,email,DOB in result:
         customer.append({"DOB":DOB,"Email":email,"Mobile":mobile,"City":city,"Name":name,"customer id":Customer_ID})
+    cursorobject.close()
     return customer
 
 def read_by_city(city):
@@ -42,6 +46,7 @@ def read_by_city(city):
     customer=[]
     for Customer_ID,name,city,mobile,email,DOB in result:
         customer.append({"DOB":DOB,"Email":email,"Mobile":mobile,"City":city,"Name":name,"customer id":Customer_ID})
+    cursorobject.close()
     return customer
 
 def read_by_name_age(age,name):
@@ -52,6 +57,7 @@ def read_by_name_age(age,name):
     customer=[]
     for Customer_ID,name,city,mobile,email,DOB in result:
         customer.append({"DOB":DOB,"Email":email,"Mobile":mobile,"City":city,"Name":name,"customer id":Customer_ID})
+    cursorobject.close()
     return customer
 
 def delete(name):
@@ -59,6 +65,7 @@ def delete(name):
     sql="DELETE FROM customertable WHERE Name = %s"
     cursorObject.execute(sql,(name,)) #We cant simply write cursorObject.execute(sql,(customer_id)) because it will take customer_id as a tuple. Instead we have to write cursorObject.execute(sql,(customer_id,)) which take elemtns as tuple
     database.commit()
+    cursorObject.close()
     return cursorObject.rowcount
 
 def update_by_name_city(name, city):
@@ -66,6 +73,7 @@ def update_by_name_city(name, city):
     sql="UPDATE customertable SET City_name = %s WHERE Name = %s"
     cursorobject.execute(sql,(city,name))
     database.commit()
+    cursorobject.close()
     return {"Message": "Customer successfully updated"}
 
 def update_by_name_email(name, email):
@@ -73,6 +81,7 @@ def update_by_name_email(name, email):
     sql="UPDATE customertable SET Email = %s WHERE Name = %s"
     cursorobject.execute(sql,(email,name))
     database.commit()
+    cursorobject.close()
     return {"Message": "Customer successfully updated"}
 
 def update_by_name_mobile(name, mobile):
@@ -80,4 +89,5 @@ def update_by_name_mobile(name, mobile):
     sql="UPDATE customertable SET Mobile_no = %s WHERE Name = %s"
     cursorobject.execute(sql,(mobile,name))
     database.commit()
+    cursorobject.close()
     return {"Message": "Customer successfully updated"}

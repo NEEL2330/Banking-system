@@ -14,16 +14,16 @@ const InputBar = ({ name, placeholder, value, onChange }) => (
   </div>
 );
 
-const CustomerRead = () => {
+const transactionRead = () => {
   const [selectedOption, setSelectedOption] = useState("");
   const [inputValues, setInputValues] = useState({});
   const [customers, setCustomers] = useState([]);
   const [filteredCustomers, setFilteredCustomers] = useState([]);
 
-  const options = ['Name', 'City', 'DOB and Name'];
+  const options = ['Transaction ID', 'Account No'];
 
   useEffect(() => {
-    fetch('http://127.0.0.1:5000/customer')
+    fetch('http://127.0.0.1:5000/transaction')
       .then(res => res.json())
       .then(data => setCustomers(data))
       .catch(err => console.error('Error fetching customers:', err));
@@ -31,14 +31,11 @@ const CustomerRead = () => {
 
   useEffect(() => {
     switch (selectedOption) {
-      case 'Name':
-        setInputValues({ name: '' });
+      case 'Transaction ID':
+        setInputValues({Transaction : '' });
         break;
-      case 'City':
-        setInputValues({ city: '' });
-        break;
-      case 'DOB and Name':
-        setInputValues({ dob: '', name: '' });
+      case 'Account No':
+        setInputValues({Account : '' });
         break;
       default:
         setInputValues({});
@@ -58,44 +55,27 @@ const CustomerRead = () => {
     e.preventDefault();
     let filtered = [];
 
-    if (selectedOption === 'Name' && inputValues.name) {
+    if (selectedOption === 'Transaction ID' && inputValues.Transaction) {
       filtered = customers.filter(customer =>
-        customer.Name.toLowerCase().includes(inputValues.name.toLowerCase())
+        customer['Transaction id'].toString().includes(inputValues.Transaction)
       );
-    } else if (selectedOption === 'City' && inputValues.city) {
+    } else if (selectedOption === 'Account No' && inputValues.Account) {
       filtered = customers.filter(customer =>
-        customer.City.toLowerCase().includes(inputValues.city.toLowerCase())
+        customer['From account no'].toString().includes(inputValues.Account)
       );
-    } else if (
-      selectedOption === 'DOB and Name' &&
-      inputValues.dob &&
-      inputValues.name
-    ) {
-      filtered = customers.filter(customer =>
-        customer.DOB.toString() === inputValues.dob &&
-        customer.Name.toLowerCase().includes(inputValues.name.toLowerCase())
-      );
-    }
-
+    } 
     setFilteredCustomers(filtered);
   };
 
   const renderInputFields = () => {
     switch (selectedOption) {
-      case 'Name':
+      case 'Transaction ID':
         return (
-          <InputBar name="name" placeholder="Enter Name" value={inputValues.name || ''} onChange={handleInputChange} />
+          <InputBar name="Transaction" placeholder="Enter Transaction ID" value={inputValues.Transaction || ''} onChange={handleInputChange} />
         );
-      case 'City':
+      case 'Account No':
         return (
-          <InputBar name="city" placeholder="Enter City" value={inputValues.city || ''} onChange={handleInputChange} />
-        );
-      case 'DOB and Name':
-        return (
-          <>
-            <InputBar name="dob" placeholder="Enter DOB" value={inputValues.dob || ''} onChange={handleInputChange} />
-            <InputBar name="name" placeholder="Enter Name" value={inputValues.name || ''} onChange={handleInputChange} />
-          </>
+          <InputBar name="Account" placeholder="Enter Account No" value={inputValues.Account || ''} onChange={handleInputChange} />
         );
       default:
         return null;
@@ -130,12 +110,10 @@ const CustomerRead = () => {
         {filteredCustomers.length === 0 && <div>No matching customers found.</div>}
         {filteredCustomers.map((customer, index) => (
           <div key={index} className="customer-card">
-            <strong>Name:</strong> {customer.Name}<br />
-            <strong>City:</strong> {customer.City}<br />
-            <strong>DOB:</strong> {customer.DOB}<br />
-            <strong>Email:</strong> {customer.Email}<br />
-            <strong>Mobile:</strong> {customer.Mobile}<br />
-            <strong>Customer ID:</strong> {customer["customer id"]}
+            <strong>From Account No:</strong> {customer["From account no"]}<br />
+            <strong>To Account No:</strong> {customer["To account no"]}<br />
+            <strong>Amount:</strong> {customer["Transaction amount"]}<br />
+            <strong>Transaction id:</strong> {customer["Transaction id"]}<br />
           </div>
         ))}
       </div>}
@@ -143,4 +121,4 @@ const CustomerRead = () => {
   );
 };
 
-export default CustomerRead;
+export default transactionRead;

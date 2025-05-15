@@ -89,19 +89,25 @@ def customer_route():
             return read()
 
     elif request.method == 'PUT':
-        name = request.args.get("name", None)
-        city = request.args.get("City", None)
-        email = request.args.get("email", None)
-        mobile = request.args.get("Mobile", None)
-        if name and city:
+        body = request.get_json()
+        print("Received JSON body:", body)  # Optional for debugging
+
+        name = body.get("name")
+        city = body.get("City")
+        email = body.get("email")
+        mobile = body.get("Mobile")
+
+        if name and city:   
             update_by_name_city(name, city)
-            return "Data is updated"
+            return {"message": "City updated successfully"}, 200
         elif name and email:
             update_by_name_email(name, email)
-            return {"Message": "Data is updated"}
+            return {"message": "Email updated successfully"}, 200
         elif name and mobile:
             update_by_name_mobile(name, mobile)
-            return "Data is updated"
+            return {"message": "Mobile updated successfully"}, 200
+
+        return {"error": "Invalid or missing parameters for update"}, 400
 
     else:
         name = request.args.get("Name", None)

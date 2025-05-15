@@ -11,7 +11,8 @@ import AccountUpdate from './pages/AccountUpdate';
 import CustomerRead from './pages/CustomerRead';
 import CustomerCreate from './pages/CustomerCreate';
 import CustomerUpdate from './pages/CustomerUpdate';
-
+import TransactionRead from './pages/TransactionRead'
+import TransactionPut from './pages/TransactionPut'
 
 const App = () => {
   return (
@@ -24,6 +25,8 @@ const App = () => {
           <Route path="/accountUpdate" element={<AccountUpdate />} />
           <Route path="/accountRead" element={<AccountRead />} />
         <Route path="/transaction" element={<Transaction />} />
+          <Route path="/transactionRead" element={<TransactionRead />} />
+          <Route path="/transactionPut" element={<TransactionPut />} />
         <Route path="/customer" element={<Customer />} />
           <Route path="/customerCreate" element={<CustomerCreate />} />
           <Route path="/customerUpdate" element={<CustomerUpdate />} />

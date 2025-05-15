@@ -36,12 +36,14 @@
 from flask import Blueprint, request
 import sys
 import os
+from flask_cors import cross_origin
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from db.transaction import trasnsaction, read, read_by_account_no, read_by_transaction_id
 
 transaction_bp = Blueprint("transaction", __name__)
 
-@transaction_bp.route('/transaction', methods=['PUT', 'GET'])
+@transaction_bp.route('/transaction', methods=['PUT', 'GET',])
+@cross_origin()  
 def transaction_route():
     if request.method == 'PUT':
         body = request.json

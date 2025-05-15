@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS  
 from account import account_bp
 from customer import customer_bp
 from transaction import transaction_bp
@@ -8,6 +9,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Register Blueprints
 app.register_blueprint(account_bp)

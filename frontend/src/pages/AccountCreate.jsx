@@ -3,35 +3,51 @@ import axios from "axios";
 import "../css/AccountCreate.css";
 
 const AccountCreate = () => {
-  const [title, setTitle] = useState("");
-  const [body, setbody] = useState("");
+  const [Customer, setCustomer] = useState("");
+  const [Account, setAccount] = useState("");
+  const [Balance, setBalance] = useState("");
   const [responseMsg, setresponseMsg] = useState("");
 
   const handlesubmit = (e) => {
-    e.preventDefault();
-    const NewData = { title, body };
-    axios.post("https://jsonplaceholder.typicode.com/posts", NewData)
-      .then((response) => {
-        setresponseMsg("Data Submitted!!");
-    })
+  e.preventDefault();
+  const NewData = {
+    'customer_id': Customer,
+    'account_no': Account,
+    'Balance': Balance
   };
+
+  axios.post("http://127.0.0.1:5000/account", NewData)
+    .then((response) => {
+      setresponseMsg("✅ Data Submitted!");
+    })
+    .catch((error) => {
+      console.error("Error submitting data:", error);
+      setresponseMsg("❌ Failed to submit data. Please try again.");
+    });
+};
 
   return (
     <div className="form-container">
       <h2>Creating Account</h2>
       <form onSubmit={handlesubmit}>
-        <h3>Title</h3>
+        <h3>Customer ID</h3>
         <input 
           type="text"
-          placeholder="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Customer ID"
+          value={Customer}
+          onChange={(e) => setCustomer(e.target.value)}
         />
-        <h3>Body</h3>
-        <textarea 
-          placeholder="Body"
-          value={body}
-          onChange={(e) => setbody(e.target.value)}
+        <h3>Account No</h3>
+        <input 
+          placeholder="Account No"
+          value={Account}
+          onChange={(e) => setAccount(e.target.value)}
+        />
+        <h3>Balance</h3>
+        <input 
+          placeholder="Balance"
+          value={Balance}
+          onChange={(e) => setBalance(e.target.value)}
         />
         <button type="submit">Submit</button>
       </form>

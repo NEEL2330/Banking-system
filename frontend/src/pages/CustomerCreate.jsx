@@ -3,35 +3,60 @@ import axios from "axios";
 import "../css/AccountCreate.css";
 
 const CustomerCreate = () => {
-  const [title, setTitle] = useState("");
-  const [body, setbody] = useState("");
+  const [Name, setName] = useState("");
+  const [City, setCity] = useState("");
+  const [Mobile, setMobile] = useState("");
+  const [Email, setEmail] = useState("");
+  const [Age, setAge] = useState("");
   const [responseMsg, setresponseMsg] = useState("");
 
   const handlesubmit = (e) => {
     e.preventDefault();
-    const NewData = { title, body };
-    axios.post("https://jsonplaceholder.typicode.com/posts", NewData)
+    const NewData = { 'Name' : Name, 'City' : City, 'Mobile' : Mobile, 'Email' : Email, 'dob' : Age};
+    axios.post("http://127.0.0.1:5000/customer", NewData)
       .then((response) => {
         setresponseMsg("Data Submitted!!");
     })
+    setresponseMsg("Data Submitted!!");
   };
 
   return (
     <div className="form-container">
-      <h2>Creating Account</h2>
+      <h2>Creating Customer account</h2>
       <form onSubmit={handlesubmit}>
-        <h3>Title</h3>
+        <h3>Name</h3>
         <input 
           type="text"
-          placeholder="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Name"
+          value={Name}
+          onChange={(e) => setName(e.target.value)}
         />
-        <h3>Body</h3>
-        <textarea 
-          placeholder="Body"
-          value={body}
-          onChange={(e) => setbody(e.target.value)}
+        <h3>City</h3>
+        <input 
+          placeholder="City"
+          value={City}
+          onChange={(e) => setCity(e.target.value)}
+        />
+        <h3>Mobile No.</h3>
+        <input 
+          type="text"
+          placeholder="Mobile No"
+          value={Mobile}
+          onChange={(e) => setMobile(e.target.value)}
+        />
+        <h3>Email</h3>
+        <input 
+          type="text"
+          placeholder="Email"
+          value={Email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <h3>Age</h3>
+        <input 
+          type="text"
+          placeholder="Age"
+          value={Age}
+          onChange={(e) => setAge(e.target.value)}
         />
         <button type="submit">Submit</button>
       </form>

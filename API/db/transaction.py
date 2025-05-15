@@ -1,21 +1,31 @@
 import mysql.connector
 
 database = mysql.connector.connect(
-    host="db-container-part-1",   
+    host="localhost",   
     user="root",
     password="Neelbera@2330",
-    database="banking_system"
+    database="banking_system",
+    autocommit=True
 )
 
 
 def trasnsaction(from_account_no, to_account_no, amount):
     cursorobject=database.cursor()
-    add_balance(to_account_no,amount)
-    subtract_balance(from_account_no,amount)
-    sql="INSERT INTO transactiontable (From_account_no, To_account_no, Transaction_amount) VALUES(%s, %s, %s)"
-    cursorobject.execute(sql,(from_account_no, to_account_no, amount))
+    sql1 = "UPDATE accounttable SET Account_balance = Account_balance - %s WHERE Account_no = %s"
+    cursorobject.execute(sql1, (amount, from_account_no))
+
+    # Add to receiver
+    sql2 = "UPDATE accounttable SET Account_balance = Account_balance + %s WHERE Account_no = %s"
+    cursorobject.execute(sql2, (amount, to_account_no))
+
+    # Log transaction
+    sql3 = "INSERT INTO transactiontable (From_account_no, To_account_no, Transaction_amount) VALUES(%s, %s, %s)"
+    cursorobject.execute(sql3, (from_account_no, to_account_no, amount))
+
+    # Final commit only once
     database.commit()
-    return "Transaction has placed successfully"
+    cursorobject.close()
+    return "Transaction has been placed successfully"
 
 def read():
     cursorobject=database.cursor()
@@ -24,6 +34,7 @@ def read():
     transaction=[]
     for Transaction_id, From_account_no, To_account_no, Transaction_amount in result:
         transaction.append({"Transaction id":Transaction_id, "From account no":From_account_no, "To account no":To_account_no, "Transaction amount":Transaction_amount})
+    cursorobject.close()
     return transaction
 
 def read_by_transaction_id(transaction_id):
@@ -34,6 +45,7 @@ def read_by_transaction_id(transaction_id):
     transaction=[]
     for Transaction_id, From_account_no, To_account_no, Transaction_amount in result:
         transaction.append({"Transaction id":Transaction_id, "From account no":From_account_no, "To account no":To_account_no, "Transaction amount":Transaction_amount})
+    cursorobject.close()
     return transaction
 
 def read_by_account_no(account_no):
@@ -44,6 +56,7 @@ def read_by_account_no(account_no):
     transaction=[]
     for Transaction_id, From_account_no, To_account_no, Transaction_amount in result:
         transaction.append({"Transaction id":Transaction_id, "From account no":From_account_no, "To account no":To_account_no, "Transaction amount":Transaction_amount})
+    cursorobject.close()
     return transaction
 
 def add_balance(account_no,amount):
@@ -51,6 +64,7 @@ def add_balance(account_no,amount):
     sql="UPDATE accounttable SET Account_balance = Account_balance + %s WHERE Account_no = %s"
     cursorobject.execute(sql,(amount,account_no))
     database.commit()
+    cursorobject.close()
     return "Transaction successfully done"
 
 def subtract_balance(account_no,amount):
@@ -58,4 +72,5 @@ def subtract_balance(account_no,amount):
     sql="UPDATE accounttable SET Account_balance = Account_balance - %s WHERE Account_no = %s"
     cursorobject.execute(sql,(amount,account_no))
     database.commit()
+    cursorobject.close()
     return "Transaction successfully done"
