@@ -2,7 +2,7 @@
 
 # Wait for MySQL to be ready
 echo "Waiting for MySQL to start..."
-until nc -z -v -w30 db-container-part-1 3306
+until nc -z -v -w30 db_container 3306
 do
   echo "Waiting for MySQL..."
   sleep 5

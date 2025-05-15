@@ -3,10 +3,10 @@ version: '3.8'
 services:
   flask-app:
     build: .
-    container_name: api-container-part-1
+    container_name: api_container
     restart: always
     depends_on:
-      - db-container-part-1
+      - db_container
     ports:
       - "5000:5000"
     environment:
