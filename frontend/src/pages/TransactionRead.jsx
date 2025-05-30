@@ -23,7 +23,7 @@ const transactionRead = () => {
   const options = ['Transaction ID', 'Account No'];
 
   useEffect(() => {
-    fetch('http://127.0.0.1:5000/transaction')
+    fetch('http://43.204.162.5:5000/transaction')
       .then(res => res.json())
       .then(data => setCustomers(data))
       .catch(err => console.error('Error fetching customers:', err));

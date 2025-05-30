@@ -16,7 +16,7 @@ const AccountCreate = () => {
     'Balance': Balance
   };
 
-  axios.post("http://127.0.0.1:5000/account", NewData)
+  axios.post("http://43.204.162.5:5000/account", NewData)
     .then((response) => {
       setresponseMsg("✅ Data Submitted!");
     })

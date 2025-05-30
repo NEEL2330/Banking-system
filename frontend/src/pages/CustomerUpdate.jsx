@@ -51,7 +51,7 @@ const CustomerUpdate = () => {
 
     try {
       console.log(inputValues)
-      const response = await axios.put("http://127.0.0.1:5000/customer", inputValues);
+      const response = await axios.put("http://43.204.162.5:5000/customer", inputValues);
       setResponseMsg("Data updated successfully!");
     } catch (error) {
       setResponseMsg("Update failed. Please check the server.");
