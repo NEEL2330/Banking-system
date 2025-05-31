@@ -19,15 +19,13 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-
-      - name: Build, tag, and push image to ECR
+      - name: Login to Amazon ECR Public
         run: |
-          IMAGE_URI="${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:latest"
-          docker build -t banking-system ./frontend
-          docker tag banking-system:latest public.ecr.aws/l2o9a2s7/banking-system:latest
+          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
+      
+      - name: Build, tag, and push image to Public ECR
+        run: |
+          docker build -t public.ecr.aws/l2o9a2s7/banking-system:latest ./frontend
           docker push public.ecr.aws/l2o9a2s7/banking-system:latest
 
       - name: Check if EC2_IP secret exists
