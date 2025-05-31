@@ -44,8 +44,7 @@ jobs:
         run: |
           chmod 400 ec2-key.pem
           ssh -o StrictHostKeyChecking=no -i ec2-key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} << 'EOF'
-            docker login --username AWS --password $(aws ecr-public get-login-password --region us-east-1)
-
+            
             # Stop and remove existing containers
             docker stop frontend || true && docker rm frontend || true
             docker stop api_container || true && docker rm api_container || true
@@ -57,7 +56,7 @@ jobs:
             docker pull public.ecr.aws/l2o9a2s7/db:latest
 
             # Create network if not exists
-            docker network create banking-network || true
+            docker network inspect banking-network >/dev/null 2>&1 || docker network create banking-network
 
             # Run DB container
             docker run -d --name db_container --network banking-network -e MYSQL_ROOT_PASSWORD=Neelbera@2330 -p 3307:3306 public.ecr.aws/l2o9a2s7/db:latest
