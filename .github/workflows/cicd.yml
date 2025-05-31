@@ -26,7 +26,7 @@ jobs:
       - name: Build, tag, and push image to ECR
         run: |
           IMAGE_URI="${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:latest"
-          docker build -t banking-system .
+          docker build -t banking-system ./frontend
           docker tag banking-system:latest public.ecr.aws/l2o9a2s7/banking-system:latest
           docker push public.ecr.aws/l2o9a2s7/banking-system:latest
 
