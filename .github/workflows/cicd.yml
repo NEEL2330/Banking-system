@@ -26,7 +26,7 @@ jobs:
       - name: Build, tag, and push image to ECR
         run: |
           IMAGE_URI="${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:latest"
-          docker build -t $IMAGE_URI -f ./frontend
+          docker buildx build --platform linux/amd64 -t $IMAGE_URI ./frontend --load
           docker push $IMAGE_URI
 
       - name: Check if EC2_IP secret exists
