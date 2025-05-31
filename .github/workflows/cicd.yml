@@ -24,17 +24,17 @@ jobs:
           aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/l2o9a2s7
       - name: Build and Push Frontend
         run: |
-          docker build -t frontend ./frontend
+          docker build -t public.ecr.aws/l2o9a2s7/frontend:latest ./frontend
           docker push public.ecr.aws/l2o9a2s7/frontend:latest
 
       - name: Build and Push API
         run: |
-          docker build -t api ./API
+          docker build -t public.ecr.aws/l2o9a2s7/api:latest ./API
           docker push public.ecr.aws/l2o9a2s7/api:latest
 
       - name: Build and Push DB
         run: |
-          docker build -t db ./DB
+          docker build -t public.ecr.aws/l2o9a2s7/db:latest ./DB
           docker push public.ecr.aws/l2o9a2s7/db:latest
 
       - name: Decode EC2 SSH Key
