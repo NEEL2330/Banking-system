@@ -2,7 +2,7 @@ name: Deploy to EC2 from ECR
 
 on:
   push:
-    branches: [main]  # Change branch if needed
+    branches: [main]
 
 jobs:
   deploy:
@@ -19,38 +19,49 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Login to Amazon ECR Public
+      - name: Login to Amazon Public ECR
         run: |
-          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
-      
-      - name: Build, tag, and push image to Public ECR
+          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/l2o9a2s7
+      - name: Build and Push Frontend
         run: |
-          docker build -t public.ecr.aws/l2o9a2s7/banking-system:latest ./frontend
-          docker push public.ecr.aws/l2o9a2s7/banking-system:latest
+          docker build -t public.ecr.aws/l2o9a2s7/frontend:latest ./frontend
+          docker push public.ecr.aws/l2o9a2s7/frontend:latest
 
-      - name: Check if EC2_IP secret exists
-        id: check-ec2-ip
+      - name: Build and Push API
         run: |
-          if [ -z "${{ secrets.EC2_IP }}" ]; then
-            echo "EC2_IP not set"
-            echo "ec2_ip_exists=false" >> $GITHUB_OUTPUT
-          else
-            echo "EC2_IP is set"
-            echo "ec2_ip_exists=true" >> $GITHUB_OUTPUT
-          fi
+          docker build -t public.ecr.aws/l2o9a2s7/api:latest ./API
+          docker push public.ecr.aws/l2o9a2s7/api:latest
 
-      - name: Decode EC2 key
-        if: steps.check-ec2-ip.outputs.ec2_ip_exists == 'true'
+      - name: Build and Push DB
+        run: |
+          docker build -t public.ecr.aws/l2o9a2s7/db:latest ./DB
+          docker push public.ecr.aws/l2o9a2s7/db:latest
+
+      - name: Decode EC2 SSH Key
         run: echo "${{ secrets.EC2_KEY }}" | base64 -d > ec2-key.pem
 
-      - name: SSH into EC2 and deploy container
-        if: steps.check-ec2-ip.outputs.ec2_ip_exists == 'true'
+      - name: SSH and Deploy on EC2
         run: |
           chmod 400 ec2-key.pem
           ssh -o StrictHostKeyChecking=no -i ec2-key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} << 'EOF'
-            aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ steps.login-ecr.outputs.registry }}
-            docker stop frontend || true
-            docker rm frontend || true
-            docker pull ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:latest
-            docker run -d --name frontend --network banking-network -p 80:5173 ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:latest
+            
+            # Stop and remove existing containers
+            docker stop frontend || true && docker rm frontend || true
+            docker stop api_container || true && docker rm api_container || true
+            docker stop db_container || true && docker rm db_container || true
+
+            # Pull latest images
+            docker pull public.ecr.aws/l2o9a2s7/frontend:latest
+            docker pull public.ecr.aws/l2o9a2s7/api:latest
+            docker pull public.ecr.aws/l2o9a2s7/db:latest
+
+            # Create network if not exists
+            docker network inspect banking-network >/dev/null 2>&1 || docker network create banking-network
+
+            # Run DB container
+            docker run -d --name db_container --network banking-network -e MYSQL_ROOT_PASSWORD=Neelbera@2330 -p 3307:3306 public.ecr.aws/l2o9a2s7/db:latest
+            # Run API container
+            docker run -d --name api_container --network banking-network -p 5000:5000 public.ecr.aws/l2o9a2s7/api:latest
+            # Run Frontend container
+            docker run -d --name frontend --network banking-network -p 80:5173 public.ecr.aws/l2o9a2s7/frontend:latest
           EOF
