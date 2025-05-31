@@ -10,10 +10,12 @@ const Home = () => {
       <div className="card-container">
         <Card title="Account" description="Manage bank accounts" path="/account"/>
         <Card title="Transaction" description="View and add transactions" path="/transaction"/>
-        <Card title="Customer" description="Customer details and actions" path="/customer"/>
+        <Card title="Customer details" description="Customer details and actions" path="/customer"/>
       </div>
     </div>
   );
 };
 
 export default Home;
+
+fef
