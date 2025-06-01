@@ -24,18 +24,18 @@ jobs:
           aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 051826725875.dkr.ecr.ap-south-1.amazonaws.com
       - name: Build and Push Frontend
         run: |
-          sudo docker build -t 051826725875.dkr.ecr.ap-south-1.amazonaws.com/frontend:latest ./frontend
-          sudo docker push 051826725875.dkr.ecr.ap-south-1.amazonaws.com/frontend:latest
+           docker build -t 051826725875.dkr.ecr.ap-south-1.amazonaws.com/frontend:latest ./frontend
+           docker push 051826725875.dkr.ecr.ap-south-1.amazonaws.com/frontend:latest
 
       - name: Build and Push API
         run: |
-          sudo docker build -t 051826725875.dkr.ecr.ap-south-1.amazonaws.com/api:latest ./API
-          sudo docker push 051826725875.dkr.ecr.ap-south-1.amazonaws.com/api:latest
+           docker build -t 051826725875.dkr.ecr.ap-south-1.amazonaws.com/api:latest ./API
+           docker push 051826725875.dkr.ecr.ap-south-1.amazonaws.com/api:latest
 
       - name: Build and Push DB
         run: |
-          sudo docker build -t 051826725875.dkr.ecr.ap-south-1.amazonaws.com/db:latest ./DB
-          sudo docker push 051826725875.dkr.ecr.ap-south-1.amazonaws.com/db:latest
+           docker build -t 051826725875.dkr.ecr.ap-south-1.amazonaws.com/db:latest ./DB
+           docker push 051826725875.dkr.ecr.ap-south-1.amazonaws.com/db:latest
 
       - name: Decode EC2 SSH Key
         run: echo "${{ secrets.EC2_KEY }}" | base64 -d > ec2-key.pem
@@ -46,27 +46,27 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i ec2-key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} << 'EOF'
             
             # Stop and remove existing containers
-            sudo docker stop frontend || true && sudo docker rm frontend || true
-            sudo docker stop api_container || true && sudo docker rm api_container || true
-            sudo docker stop db_container || true && sudo docker rm db_container || true
+             docker stop frontend || true &&  docker rm frontend || true
+             docker stop api_container || true &&  docker rm api_container || true
+             docker stop db_container || true &&  docker rm db_container || true
 
             # Remove the old image
-            sudo docker image rm public.ecr.aws/l2o9a2s7/frontend:latest || true
-            sudo docker image rm public.ecr.aws/l2o9a2s7/api:latest || true
-            sudo docker image rm public.ecr.aws/l2o9a2s7/db:latest || true
+             docker image rm public.ecr.aws/l2o9a2s7/frontend:latest || true
+             docker image rm public.ecr.aws/l2o9a2s7/api:latest || true
+             docker image rm public.ecr.aws/l2o9a2s7/db:latest || true
             
             # Pull latest images
-            sudo docker pull 051826725875.dkr.ecr.ap-south-1.amazonaws.com/frontend:latest
-            sudo docker pull 051826725875.dkr.ecr.ap-south-1.amazonaws.com/api:latest
-            sudo docker pull 051826725875.dkr.ecr.ap-south-1.amazonaws.com/db:latest
+             docker pull 051826725875.dkr.ecr.ap-south-1.amazonaws.com/frontend:latest
+             docker pull 051826725875.dkr.ecr.ap-south-1.amazonaws.com/api:latest
+             docker pull 051826725875.dkr.ecr.ap-south-1.amazonaws.com/db:latest
 
             # Create network if not exists
-            sudo docker network inspect banking-network >/dev/null 2>&1 || sudo docker network create banking-network
+             docker network inspect banking-network >/dev/null 2>&1 || sudo docker network create banking-network
 
             # Run DB container
-            sudo docker run -d --name db_container --network banking-network -e MYSQL_ROOT_PASSWORD=Neelbera@2330 -p 3307:3306 051826725875.dkr.ecr.ap-south-1.amazonaws.com/db:latest
+             docker run -d --name db_container --network banking-network -e MYSQL_ROOT_PASSWORD=Neelbera@2330 -p 3307:3306 051826725875.dkr.ecr.ap-south-1.amazonaws.com/db:latest
             # Run API container
-            sudo docker run -d --name api_container --network banking-network -p 5000:5000 051826725875.dkr.ecr.ap-south-1.amazonaws.com/api:latest
+             docker run -d --name api_container --network banking-network -p 5000:5000 051826725875.dkr.ecr.ap-south-1.amazonaws.com/api:latest
             # Run Frontend container
-            sudo docker run -d --name frontend --network banking-network -p 80:5173 051826725875.dkr.ecr.ap-south-1.amazonaws.com/frontend:latest
+             docker run -d --name frontend --network banking-network -p 80:5173 051826725875.dkr.ecr.ap-south-1.amazonaws.com/frontend:latest
           EOF
