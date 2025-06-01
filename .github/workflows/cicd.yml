@@ -19,23 +19,23 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Login to Amazon Public ECR
+      - name: Login to Amazon Private ECR
         run: |
-          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/l2o9a2s7
+          aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 051826725875.dkr.ecr.ap-south-1.amazonaws.com
       - name: Build and Push Frontend
         run: |
-          sudo docker build -t public.ecr.aws/l2o9a2s7/frontend:latest ./frontend
-          sudo docker push public.ecr.aws/l2o9a2s7/frontend:latest
+          sudo docker build -t 051826725875.dkr.ecr.ap-south-1.amazonaws.com/frontend:latest ./frontend
+          sudo docker push 051826725875.dkr.ecr.ap-south-1.amazonaws.com/frontend:latest
 
       - name: Build and Push API
         run: |
-          sudo docker build -t public.ecr.aws/l2o9a2s7/api:latest ./API
-          sudo docker push public.ecr.aws/l2o9a2s7/api:latest
+          sudo docker build -t 051826725875.dkr.ecr.ap-south-1.amazonaws.com/api:latest ./API
+          sudo docker push 051826725875.dkr.ecr.ap-south-1.amazonaws.com/api:latest
 
       - name: Build and Push DB
         run: |
-          sudo docker build -t public.ecr.aws/l2o9a2s7/db:latest ./DB
-          sudo docker push public.ecr.aws/l2o9a2s7/db:latest
+          sudo docker build -t 051826725875.dkr.ecr.ap-south-1.amazonaws.com/db:latest ./DB
+          sudo docker push 051826725875.dkr.ecr.ap-south-1.amazonaws.com/db:latest
 
       - name: Decode EC2 SSH Key
         run: echo "${{ secrets.EC2_KEY }}" | base64 -d > ec2-key.pem
@@ -56,17 +56,17 @@ jobs:
             sudo docker image rm public.ecr.aws/l2o9a2s7/db:latest || true
             
             # Pull latest images
-            sudo docker pull public.ecr.aws/l2o9a2s7/frontend:latest
-            sudo docker pull public.ecr.aws/l2o9a2s7/api:latest
-            sudo docker pull public.ecr.aws/l2o9a2s7/db:latest
+            sudo docker pull 051826725875.dkr.ecr.ap-south-1.amazonaws.com/frontend:latest
+            sudo docker pull 051826725875.dkr.ecr.ap-south-1.amazonaws.com/api:latest
+            sudo docker pull 051826725875.dkr.ecr.ap-south-1.amazonaws.com/db:latest
 
             # Create network if not exists
             sudo docker network inspect banking-network >/dev/null 2>&1 || sudo docker network create banking-network
 
             # Run DB container
-            sudo docker run -d --name db_container --network banking-network -e MYSQL_ROOT_PASSWORD=Neelbera@2330 -p 3307:3306 public.ecr.aws/l2o9a2s7/db:latest
+            sudo docker run -d --name db_container --network banking-network -e MYSQL_ROOT_PASSWORD=Neelbera@2330 -p 3307:3306 051826725875.dkr.ecr.ap-south-1.amazonaws.com/db:latest
             # Run API container
-            sudo docker run -d --name api_container --network banking-network -p 5000:5000 public.ecr.aws/l2o9a2s7/api:latest
+            sudo docker run -d --name api_container --network banking-network -p 5000:5000 051826725875.dkr.ecr.ap-south-1.amazonaws.com/api:latest
             # Run Frontend container
-            sudo docker run -d --name frontend --network banking-network -p 80:5173 public.ecr.aws/l2o9a2s7/frontend:latest
+            sudo docker run -d --name frontend --network banking-network -p 80:5173 051826725875.dkr.ecr.ap-south-1.amazonaws.com/frontend:latest
           EOF
