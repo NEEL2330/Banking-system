@@ -55,6 +55,8 @@ jobs:
            sudo docker image rm 051826725875.dkr.ecr.ap-south-1.amazonaws.com/api:latest || true
            sudo docker image rm 051826725875.dkr.ecr.ap-south-1.amazonaws.com/db:latest || true
 
+           aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 051826725875.dkr.ecr.ap-south-1.amazonaws.com
+           
           # Pull latest images
            sudo docker pull 051826725875.dkr.ecr.ap-south-1.amazonaws.com/frontend:latest
            sudo docker pull 051826725875.dkr.ecr.ap-south-1.amazonaws.com/api:latest
