@@ -38,11 +38,12 @@ jobs:
            docker push 051826725875.dkr.ecr.ap-south-1.amazonaws.com/db:latest
 
       - name: Decode EC2 SSH Key
-        run: echo "${{ secrets.EC2_KEY }}" | base64 -d > ec2-key.pem
+        run: echo "${{ secrets.EC2_KEY }}" | base64 -d > banking-system04.pem
 
       - name: SSH and Deploy on EC2
         run: |
-          ssh -o StrictHostKeyChecking=no -i ec2-key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} << 'EOF'
+          chmod 400 banking-system04.pem
+          ssh -o StrictHostKeyChecking=no -i banking-system04.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} << 'EOF'
       
             # Login to ECR inside EC2
             aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 051826725875.dkr.ecr.ap-south-1.amazonaws.com
