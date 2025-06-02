@@ -29,7 +29,8 @@ jobs:
       - name: SSH and Deploy on EC2
         run: |
           chmod 400 banking-system04.pem
-          ssh -o StrictHostKeyChecking=no -i banking-system04.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i banking-system04.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} << EOF
+          export HOME=/home/ec2-user
           
           # Stop and remove existing containers
            sudo docker stop frontend || true &&  sudo docker rm frontend || true
