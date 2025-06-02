@@ -11,7 +11,7 @@ const TransactionPut = () => {
   const handlesubmit = (e) => {
     e.preventDefault();
     const NewData = {'from_account_no' : Faccount, 'to_account_no' : Taccount, 'amount' : Amount};
-    axios.put("http://43.204.162.5:5000/transaction", NewData)
+    axios.put("http://13.234.241.238:5000/transaction", NewData)
       .then((response) => {
         setresponseMsg("Data Submitted!!");
     })

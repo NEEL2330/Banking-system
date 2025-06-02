@@ -13,7 +13,7 @@ const CustomerCreate = () => {
   const handlesubmit = (e) => {
     e.preventDefault();
     const NewData = { 'Name' : Name, 'City' : City, 'Mobile' : Mobile, 'Email' : Email, 'dob' : Age};
-    axios.post("http://43.204.162.5:5000/customer", NewData)
+    axios.post("http://13.234.241.238:5000//customer", NewData)
       .then((response) => {
         setresponseMsg("Data Submitted!!");
     })
