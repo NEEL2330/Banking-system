@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  # Database Service
+  db:
+    image: mysql:8.0
+    container_name: banking_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Neelbera@2330
+      MYSQL_DATABASE: banking_system
+      MYSQL_USER: root
+      MYSQL_PASSWORD: Neelbera@2330
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./DB/Scripts:/docker-entrypoint-initdb.d
+    networks:
+      - banking_network
+
+  # API Service
+  api:
+    build: ./API
+    container_name: banking_api
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "5000:5000"
+    environment:
+      DB_ROOT_PASSWORD: Neelbera@2330
+      DB_USER: root
+      DB_PASSWORD: Neelbera@2330
+      DB_NAME: banking_system
+      DB_HOST: db
+    command: ["python", "/app/handler/app.py"]
+    networks:
+      - banking_network
+
+  # Frontend Service
+  frontend:
+    build: ./frontend
+    container_name: banking_frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - banking_network
+
+networks:
+  banking_network:
+    driver: bridge
+
+volumes:
+  db_data:
