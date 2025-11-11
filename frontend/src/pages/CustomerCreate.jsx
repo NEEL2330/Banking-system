@@ -13,7 +13,7 @@ const CustomerCreate = () => {
   const handlesubmit = (e) => {
     e.preventDefault();
     const NewData = { 'Name' : Name, 'City' : City, 'Mobile' : Mobile, 'Email' : Email, 'dob' : Age};
-    axios.post("https://5tvya3suhd.execute-api.ap-south-1.amazonaws.com/prod/customer", NewData)
+    axios.post("http://localhost:5000/customer", NewData)
       .then((response) => {
         setresponseMsg("Data Submitted!!");
     })

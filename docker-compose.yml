@@ -6,11 +6,13 @@ services:
     image: mysql:8.0
     container_name: banking_db
     restart: always
+    env_file:
+      - .env
     environment:
-      MYSQL_ROOT_PASSWORD: Neelbera@2330
-      MYSQL_DATABASE: banking_system
-      MYSQL_USER: root
-      MYSQL_PASSWORD: Neelbera@2330
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3307:3306"
     volumes:
@@ -28,12 +30,14 @@ services:
       - db
     ports:
       - "5000:5000"
+    env_file:
+      - .env
     environment:
-      DB_ROOT_PASSWORD: Neelbera@2330
-      DB_USER: root
-      DB_PASSWORD: Neelbera@2330
-      DB_NAME: banking_system
-      DB_HOST: db
+      DB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      DB_HOST: ${DB_HOST}
     command: ["python", "/app/handler/app.py"]
     networks:
       - banking_network

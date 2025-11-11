@@ -23,7 +23,7 @@ const transactionRead = () => {
   const options = ['Transaction ID', 'Account No'];
 
   useEffect(() => {
-    fetch('https://5tvya3suhd.execute-api.ap-south-1.amazonaws.com/prod/transaction')
+    fetch('http://localhost:5000/transaction')
       .then(res => res.json())
       .then(data => setCustomers(data))
       .catch(err => console.error('Error fetching customers:', err));

@@ -1,4 +1,4 @@
-CREATE TABLE accounttable(
+CREATE TABLE IF NOT EXISTS accounttable(
     Account_id INT AUTO_INCREMENT PRIMARY KEY,
     Customer_id INT,
     Account_no INT UNIQUE,

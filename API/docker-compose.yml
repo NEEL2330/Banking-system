@@ -3,19 +3,26 @@ version: '3.8'
 services:
   flask-app:
     build: .
-    container_name: api_container
-    restart: always
-    depends_on:
-      - db_container
+    container_name: api_container_test
+    restart: "no"
     ports:
       - "5000:5000"
+    env_file:
+      - .env
     environment:
-      DB_ROOT_PASSWORD: Neelbera@2330
-      DB_USER: root
-      DB_PASSWORD: Neelbera@2330
-      DB_NAME: banking_system
-    command: ["python", "/API/handler/app.py"]
+      - DB_ROOT_PASSWORD
+      - DB_USER
+      - DB_PASSWORD
+      - DB_NAME
+      - DB_HOST
+    command: ["/entrypoint.sh"]
+    networks:
+      - banking_network
 
+networks:
+  banking_network:
+    name: banking_network
+    external: true
 
 volumes:
   mysql_data:

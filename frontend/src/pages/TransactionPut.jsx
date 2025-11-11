@@ -11,7 +11,7 @@ const TransactionPut = () => {
   const handlesubmit = (e) => {
     e.preventDefault();
     const NewData = {'from_account_no' : Faccount, 'to_account_no' : Taccount, 'amount' : Amount};
-    axios.put("https://5tvya3suhd.execute-api.ap-south-1.amazonaws.com/prod/transaction", NewData)
+    axios.put("http://localhost:5000/transaction", NewData)
       .then((response) => {
         setresponseMsg("Data Submitted!!");
     })

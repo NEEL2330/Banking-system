@@ -51,7 +51,7 @@ const CustomerUpdate = () => {
 
     try {
       console.log(inputValues)
-      const response = await axios.put("https://5tvya3suhd.execute-api.ap-south-1.amazonaws.com/prod/customer", inputValues);
+      const response = await axios.put("http://localhost:5000/customer", inputValues);
       setResponseMsg("Data updated successfully!");
     } catch (error) {
       setResponseMsg("Update failed. Please check the server.");

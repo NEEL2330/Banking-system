@@ -1,4 +1,4 @@
-CREATE TABLE  transactiontable(
+CREATE TABLE IF NOT EXISTS transactiontable(
     Transaction_id INT AUTO_INCREMENT PRIMARY KEY,
     From_account_no INT,
     To_account_no INT,

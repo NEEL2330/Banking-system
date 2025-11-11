@@ -8,7 +8,7 @@ const AccountRead = () => {
   const [balance, setBalance] = useState(null);
 
   useEffect(() => {
-    axios.get("https://5tvya3suhd.execute-api.ap-south-1.amazonaws.com/prod/account")
+    axios.get("http://localhost:5000/account")
       .then((response) => {
         setData(response.data);
         setLoading(false);

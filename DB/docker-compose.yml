@@ -1,14 +1,25 @@
 version: '3.8'
 
 services:
-  db_container:
+  db_container_test:
+    build: .
+    container_name: db_container_test
+    restart: "no"
+    env_file:
+      - .env
     environment:
-      MYSQL_ROOT_PASSWORD: Neelbera@2330
-      MYSQL_DATABASE: banking_system
-      MYSQL_USER: root
-      MYSQL_PASSWORD: Neelbera@2330
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE
     ports:
       - "3307:3306"
     volumes:
-      - ./Scripts:/docker-entrypoint-initdb.d  # This is for your SQL scripts
-      - ./mysql_data:/var/lib/mysql             # This persists your MySQL data
+      - ./Scripts:/docker-entrypoint-initdb.d  # Auto-run SQL scripts on fresh init
+    tmpfs:
+      - /var/lib/mysql  
+    networks:
+      - banking_network                  # Ephemeral MySQL data (cleared on stop)
+
+networks:
+  banking_network:
+    name: banking_network
+    external: true

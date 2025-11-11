@@ -23,7 +23,7 @@ const CustomerRead = () => {
   const options = ['Name', 'City', 'DOB and Name'];
 
   useEffect(() => {
-    fetch('https://5tvya3suhd.execute-api.ap-south-1.amazonaws.com/prod/customers')
+    fetch('http://localhost:5000/customer')
       .then(res => res.json())
       .then(data => setCustomers(data))
       .catch(err => console.error('Error fetching customers:', err));

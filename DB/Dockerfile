@@ -1,8 +1,7 @@
 # Use the official MySQL 8 image as the base image
 FROM mysql:8.0
 
-# Set environment variables for MySQL
-ENV MYSQL_ROOT_PASSWORD=Neelbera@2330
+# Set environment variables for MySQL (can be overridden by docker-compose)
 ENV MYSQL_DATABASE=banking_system
 
 # Copy SQL files into the container's initialization directory

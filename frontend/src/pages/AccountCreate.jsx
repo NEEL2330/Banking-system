@@ -16,7 +16,7 @@ const AccountCreate = () => {
     'Balance': Balance
   };
 
-  axios.post("https://5tvya3suhd.execute-api.ap-south-1.amazonaws.com/prod/account", NewData)
+  axios.post("http://localhost:5000/account", NewData)
     .then((response) => {
       setresponseMsg("✅ Data Submitted!");
     })

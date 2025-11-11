@@ -57,7 +57,7 @@ const AccountUpdate = () => {
 
     try {
       console.log(dataToSend);
-      const response = await axios.put("https://5tvya3suhd.execute-api.ap-south-1.amazonaws.com/prod/account", dataToSend);
+      const response = await axios.put("http://localhost:5000/account", dataToSend);
       setResponseMsg("Data updated successfully!");
     } catch (error) {
       setResponseMsg("Update failed. Please check the server.");

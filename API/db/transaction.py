@@ -1,10 +1,15 @@
 import mysql.connector
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 database = mysql.connector.connect(
-    host="db_container",   
-    user="root",
-    password="Neelbera@2330",
-    database="banking_system",
+    host=os.getenv("DB_HOST", "db_container_test"),   
+    user=os.getenv("DB_USER", "root"),
+    password=os.getenv("DB_PASSWORD", ""),
+    database=os.getenv("DB_NAME", "banking_system"),
     autocommit=True
 )
 
