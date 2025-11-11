@@ -71,7 +71,7 @@ docker compose up -d --build
 ```
 
 **Step 4: Access Application**
-* Open browser and navigate to http://localhost:3000 or http://localhost:80
+* Open browser and navigate to http://localhost:5173
 * Check `frontend/docker-compose.yml` for exact port mapping
 
 ## Help
