@@ -48,31 +48,20 @@ DB_HOST=db_container_test
 
 ### Executing program
 
-* Start services in order: Database → API → Frontend
-* Each service must complete startup before proceeding to the next
-
-**Step 1: Start Database**
+**Start conatainer**
 ```
-cd ../DB
 docker network create banking_network 2>$null
 docker compose up -d --build
 ```
 
-**Step 2: Start API**
-```
-cd ../API
-docker compose up -d --build
-```
-
-**Step 3: Start Frontend**
-```
-cd ../frontend
-docker compose up -d --build
-```
-
-**Step 4: Access Application**
+**Access Application**
 * Open browser and navigate to http://localhost:5173
-* Check `frontend/docker-compose.yml` for exact port mapping
+* Check `docker-compose.yml` for exact port mapping
+
+**Stop conatainer**
+```
+docker compose down
+```
 
 ## Help
 
