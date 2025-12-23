@@ -1,51 +1,12 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  # Database Service
-  db:
-    image: mysql:8.0
-    container_name: banking_db
-    restart: always
-    env_file:
-      - .env
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    ports:
-      - "3307:3306"
-    volumes:
-      - db_data:/var/lib/mysql
-      - ./DB/Scripts:/docker-entrypoint-initdb.d
-    networks:
-      - banking_network
-
-  # API Service
-  api:
-    build: ./API
-    container_name: banking_api
-    restart: always
-    depends_on:
-      - db
-    ports:
-      - "5000:5000"
-    env_file:
-      - .env
-    environment:
-      DB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
-      DB_NAME: ${DB_NAME}
-      DB_HOST: ${DB_HOST}
-    command: ["python", "/app/handler/app.py"]
-    networks:
-      - banking_network
-
-  # Frontend Service
+  # ===============================
+  # 1) FRONTEND
+  # ===============================
   frontend:
     build: ./frontend
-    container_name: banking_frontend
+    container_name: frontend_container
     ports:
       - "5173:5173"
     volumes:
@@ -54,9 +15,55 @@ services:
     networks:
       - banking_network
 
+  # ===============================
+  # 2) DATABASE
+  # ===============================
+  db_container_test:
+    build: ./DB
+    container_name: db_container_test
+    restart: "no"
+    env_file:
+      - .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./DB/Scripts:/docker-entrypoint-initdb.d
+      - mysql_data:/var/lib/mysql
+    networks:
+      - banking_network
+
+  # ===============================
+  # 3) FLASK API
+  # ===============================
+  flask-app:
+    build: ./API
+    container_name: api_container_test
+    restart: "no"
+    ports:
+      - "5000:5000"
+    environment:
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DB_HOST=db_container_test
+    command: ["/entrypoint.sh"]
+    depends_on:
+      - db_container_test
+    networks:
+      - banking_network
+
+# ===============================
+# NETWORKS (INTERNAL, AUTO-CREATED)
+# ===============================
 networks:
   banking_network:
     driver: bridge
 
+# ===============================
+# VOLUMES
+# ===============================
 volumes:
-  db_data:
+  mysql_data:
